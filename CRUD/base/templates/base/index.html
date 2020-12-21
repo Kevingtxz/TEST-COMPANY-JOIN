@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alvos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+  
+</head>
+<body>
+    <div style="margin-left:150px;">
+        <canvas id='map' style="width: 100%; height: 100%;"></canvas>
+        <div style="width:800px; height:400px; display: block;">
+            <!-- <img src="{% static 'images/map.jpg' %}"> -->
+                <!-- 1600 x 900 -->
+                <!-- 800 x 450 -->
+                <!-- 
+                    longitude 90 = 450
+                    longitude = 5
+                -->
+                <!-- 
+                    latitude 180 = 800 
+                    latitude = 4.45
+                -->
+            {% for target in targets %}
+                <!-- <a href="" class="btn"><div class="targets" style="left: 950px; top: 450px; width: 10px; height: 10px; border-radius: 10px; border: solid 1px black; background:red; position: absolute;"></div></a> -->
+                <p>{{target.name}}</p>
+                <p>{{target.expiration}}</p>
+                <p style="display: none;" class="longitude" value="{{target.longitude}}">{{target.longitude}}</p>
+                <p style="display: none;" class="latitude" value="{{target.latitude}}">{{target.latitude}}</p>
+            {% endfor %}
+        </div>
+        <div style="display: inline-block;">
+            <button class="btn" type="submit">Incluir Novo Alvo</button>
+        </div>
+    </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script>
+    function draw() {
+    var canvas = document.getElementById('map');
+    canvas.width = 1600;
+    canvas.height = 900;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'red';
+
+    places.forEach(
+    circles = function(place) {
+        ctx.arc(
+            // turn a longitude value into a screen
+            // pixel: the left side of the page is 0, not
+            // 180, so add 180 to the value and then
+            // scale up by 2 to make the drawing 640px
+            // wide
+            (~~place[0] + 180) * 4.4,
+            // turn a latitude value into a screen
+            // pixel. unlike pixels, latitude ranges
+            // from high values on the top to low on the bottom
+            // doing 90 - lat flips them.
+            (90 - ~~place[1]) * 5, 5, 0, 2 * Math.PI);
+            
+    });
+    this.onClick = function(place){
+        return ~~place[2];
+        console.log(~~place[2]);
+    };
+    ctx.fill();
+    }
+
+    // Big cities in the world, as longitude, latitude pairs
+    // These are from Natural Earth data.
+    var places = [[-50, 0, 1],];
+    draw();
+</script>
+</html>
